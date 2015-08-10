@@ -1,0 +1,10 @@
+{
+  "name": "MiniApplication",
+  "version": "0.0.1",
+  "description": "MiniApplication",
+  "author": "Alphabets",
+  "license": "MIT",
+  "dependencies": {
+    "light-core": "git+http://git.alphabets.cn/root/LightCore.git"
+  }
+}

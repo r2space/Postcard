@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <% include _required.html %>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="center-container">
+          <h1>It Works!!!</h1>
+          <h1 class="glyphicon glyphicon-ok" style="font-size: 220px;"></h1>
+          <div class="post-details">
+            您的应用（APP ID: <%= process.env.APPNAME %>）已启动，想了解更多请通过以下方式：
+          </div>
+          <div class="post-actions">
+            <a href="http://light.starwall.org/site/index" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-home"></span> 返回平台首页</a>
+            <a href="/login" class="btn btn-default btn-lg"><span class="fa fa-graduation-cap"></span> 学习 Sample 画面</a>
+            <a href="http://light.starwall.org/site/docs" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-book"></span> 查看开发文档 </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if (handler.user) { %>
+    <p>已登录用户:
+      <%= handler.user.id %>
+    </p>
+    <% } %>
+  <% include _footer.html %>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      background.initializr();
+    });
+  </script>
+  <link rel="stylesheet" href="<%= dynamic('/stylesheets/index.css') %>" />
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <% include ../_required.html %>
+</head>
+
+<body style="color: #555">
+<input type="hidden" id="uid" value="<%= handler.user._id %>">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="center-container panel">
+          <h3><i class='fa fa-users'></i> 用户列表</h3>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>用户名</th>
+                <th>电子邮箱</th>
+                <th class="hidden-sm">注册时间</th>
+                <th><span class="pull-right">共 <span id="totalCount"></span> 项</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="user-container"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/template" id="tmplUser">
+    <tr class="{{ selected }}">
+      <td>{{ id }}</td>
+      <td>{{ email }}</td>
+      <td class="hidden-sm">{{ createAt }}</td>
+      <td style="text-align: right;">
+        {{- current }}
+      </td>
+    </tr>
+  </script>
+  <% include ../_footer.html %>
+  <script type="text/javascript" src="<%= dynamic('/javascripts/account_list.js')%>"></script>
+</body>
+
+</html>

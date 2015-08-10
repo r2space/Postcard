@@ -1,0 +1,26 @@
+# node模块
+node_modules/
+
+# 文档
+static/document/
+
+# 代码分析报告
+reports/
+
+# 覆盖率用代码
+cover*
+
+# 上传等临时文件
+tmp/
+
+# mac用管理文件
+.DS_Store
+
+# WebStorm管理文件
+.idea
+
+# npm安装日志
+npm-debug.log
+
+# javascript模块，由bowe管理
+static/bower
