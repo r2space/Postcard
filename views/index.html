@@ -1,20 +1,9 @@
 <!DOCTYPE HTML><head>
-
   <% include _required.html %>
-  <title>LIGHT</title>
-
 </head>
 <body>
 
-<div id="preloader">
-  <div id="status">
-    <p class="center-text">
-      Loading the content...
-      <em>Loading depends on your connection speed!</em>
-    </p>
-  </div>
-</div>
-
+<% include _preloader.html %>
 <div class="all-elements">
 
   <!-- Page Content-->
@@ -46,8 +35,8 @@
         <div class="one-half-responsive">
           <p class="thumb-left no-bottom">
             <img src="<%= dynamic('/images/pictures/3s.jpg') %>" alt="Card">
-            <strong>Card</strong>
-            <em><br>Lorem Ipsum is simply dummy text of the printing and typeset. </em>
+            <strong>卡片 Card</strong>
+            <em><br>一张图片，一个标题，一段文字。制作你的专属卡片。 </em>
           </p>
           <div class="thumb-clear"></div>
         </div>

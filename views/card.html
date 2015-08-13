@@ -6,14 +6,9 @@
 </head>
 <body>
 
-<div id="preloader">
-  <div id="status">
-    <p class="center-text">
-      Loading the content...
-      <em>Loading depends on your connection speed!</em>
-    </p>
-  </div>
-</div>
+<input type="hidden" id="id" value="<%= handler.params.id %>" />
+<input type="hidden" id="view" value="<%= handler.params.view %>" />
+<% include _preloader.html %>
 
 <div class="all-elements">
 
@@ -29,10 +24,16 @@
           <div>
             <div class="staff-item">
               <img src="<%= dynamic('/images/pictures/1s.jpg') %>" alt="img">
-              <h4>John Doe</h4>
-              <em>Web Designer</em>
-              <strong>We love quotes, and sometimes it's annoying to see tons of them that you need to scroll to!</strong>
-              <a href="#" class="button button-red center-button">Call</a>
+              <h4 id="title">John Doe</h4>
+              <em id="sub">Web Designer</em>
+              <br />
+              <strong id="message">We love quotes, and sometimes it's annoying to see tons of them that you need to scroll to!</strong>
+
+              <% if (handler.params.view) { %>
+              <a href="#" class="button button-red center-button" id="edit">修改</a>
+              <a href="#" class="button button-red center-button" id="publish">发布</a>
+              <% } %>
+
             </div>
           </div>
         </div>
@@ -40,29 +41,15 @@
       <div class="decoration"></div>
     </div>
 
-  </div>
+    <div class="footer">
+      <p class="center-text" id="copyright">© 2015 Alphabets Co., Ltd. All Rights Reserved.</p>
+    </div>
 
+  </div>
 </div>
 
 <% include _footer.html %>
+<script type="text/javascript" src="<%= dynamic('/scripts/card.js') %>"></script>
 
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

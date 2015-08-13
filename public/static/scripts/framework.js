@@ -6,23 +6,3 @@ $(document).ready(function(){
 		
 	
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

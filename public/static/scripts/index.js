@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
     }
 
     if (type == "Card") {
-      window.location = "/card.html";
+      window.location = "/draft.html?type=card";
     }
 
     if (type == "Contact") {

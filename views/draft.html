@@ -1,0 +1,93 @@
+<!DOCTYPE HTML><head>
+  <% include _required.html %>
+</head>
+<body>
+
+<input type="hidden" id="type" value="<%= handler.params.type %>" />
+<input type="hidden" id="id" value="<%= handler.params.id %>" />
+<% include _preloader.html %>
+
+<div class="all-elements">
+
+  <!-- Page Content-->
+  <div id="content" class="snap-content">
+
+    <div class="content">
+      <div class="decoration"></div>
+      <div class="one-half-responsive">
+        <h4>制作你的专属卡片</h4>
+        <div class="container no-bottom">
+          <div class="contact-form no-bottom">
+
+            <div class="decoration hide-if-responsive"></div>
+
+            <form class="contactForm" id="contactForm">
+              <fieldset>
+
+                <div class="formValidationError" id="error">
+                  <div class="static-notification-red tap-dismiss-notification">
+                    <p class="center-text uppercase" id="errorMsg"></p>
+                  </div>
+                </div>
+
+                <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="title">标题:<span>(必须)</span></label>
+                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="title"/>
+                </div>
+                <div class="formTextareaWrap">
+                  <label class="field-title contactMessageTextarea" for="message">内容: <span>(必须)</span></label>
+                  <textarea name="contactMessageTextarea" class="contactTextarea requiredField" id="message"></textarea>
+                </div>
+                <div class="formFieldWrap">
+                  <label class="field-title contactEmailField" for="sub">子标题: <span></span></label>
+                  <input type="text" name="contactEmailField" value="" class="contactField requiredField requiredEmailField" id="sub"/>
+                </div>
+                <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="picture">图片:<span></span></label>
+                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="picture"/>
+                </div>
+                <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="copyright">Copyright:<span></span></label>
+                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="copyright"/>
+                </div>
+                <div class="formSubmitButtonErrorsWrap">
+                  <input type="button" class="buttonWrap button button-green contactSubmitButton" id="preview" value="预览" />
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="center-text">© 2015 Alphabets Co., Ltd. All Rights Reserved.</p>
+    </div>
+
+  </div>
+</div>
+
+<% include _footer.html %>
+<script type="text/javascript" src="<%= dynamic('/scripts/draft.js') %>"></script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
