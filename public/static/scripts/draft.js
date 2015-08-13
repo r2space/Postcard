@@ -4,21 +4,71 @@
   var id = $("#id").val()
     , type = $("#type")
     , error = $("#error")
-    , errorMsg = $("#errorMsg");
+    , errorMsg = $("#errorMsg")
+    , image = {};
 
-  if (id) {
-    light.doget("/api/card/get", {id: id}, function(err, result) {
+  /**
+   * 初始化
+   */
+  function init() {
+
+    light.doget("/api/wechat/setting", function (err, setting) {
+      console.log(setting);
+
+      wx.config(setting);
+      wx.ready(function () {
+      });
+
+      wx.error(function (err) {
+      });
+    });
+
+    if (id) {
+      light.doget("/api/card/get", {id: id}, function (err, result) {
+        if (err) {
+          errorMessage.html("卡片加载出错，请稍后再试");
+          error.fadeIn(300);
+          return console.log(err);
+        }
+
+        $("#title").val(result.content.title);
+        $("#sub").val(result.content.sub);
+        $("#message").val(result.content.message);
+        $("#copyright").val(result.content.copyright);
+        type.val(result.type)
+      });
+    }
+  }
+
+  /**
+   * 保存数据
+   * @param data
+   * @returns {*}
+   */
+  function save(data) {
+
+    // 更新
+    if (id) {
+      return light.doput("/api/card/update", {id: id, data: data}, function (err) {
+        if (err) {
+          errorMessage.html("保存卡片出错，请稍后再试");
+          error.fadeIn(300);
+          return console.log(err);
+        }
+
+        window.location = "/" + type.val() + ".html?view=draft&id=" + id;
+      });
+    }
+
+    // 添加
+    light.dopost("/api/card/add", {data: data}, function (err, result) {
       if (err) {
-        errorMessage.html("卡片加载出错，请稍后再试");
+        errorMessage.html("保存卡片出错，请稍后再试");
         error.fadeIn(300);
         return console.log(err);
       }
 
-      $("#title").val(result.content.title);
-      $("#sub").val(result.content.sub);
-      $("#message").val(result.content.message);
-      $("#copyright").val(result.content.copyright);
-      type.val(result.type)
+      window.location = "/" + type.val() + ".html?view=draft&id=" + result.data._id;
     });
   }
 
@@ -53,7 +103,8 @@
         title: title.val(),
         sub: sub.val(),
         message: message.val(),
-        copyright: copyright.val()
+        copyright: copyright.val(),
+        image: image
       }
     };
 
@@ -61,36 +112,26 @@
     return false;
   });
 
-  /**
-   * 保存数据
-   * @param data
-   * @returns {*}
-   */
-  function save(data) {
+  $("#picture").click(function () {
+    wx.chooseImage({
+      count: 1,                       // 默认9
+      sizeType: ['compressed'],       // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album'],          // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
 
-    // 更新
-    if (id) {
-      return light.doput("/api/card/update", {id: id, data: data}, function(err) {
-        if (err) {
-          errorMessage.html("保存卡片出错，请稍后再试");
-          error.fadeIn(300);
-          return console.log(err);
-        }
-
-        window.location = "/" + type.val() + ".html?view=draft&id=" + id;
-      });
-    }
-
-    // 添加
-    light.dopost("/api/card/add", {data: data}, function(err, result) {
-      if (err) {
-        errorMessage.html("保存卡片出错，请稍后再试");
-        error.fadeIn(300);
-        return console.log(err);
+        var localIds = res.localIds;  // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        wx.uploadImage({
+          localId: localIds[0],       // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1,      // 默认为1，显示进度提示
+          success: function (res) {
+            image.localIdId = localIds[0];
+            image.serverId = res.serverId;
+          }
+        });
       }
-
-      window.location = "/" + type.val() + ".html?view=draft&id=" + result.data._id;
     });
+  });
 
-  }
+  init();
+
 }(jQuery));

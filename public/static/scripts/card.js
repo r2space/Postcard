@@ -19,7 +19,9 @@
     $("#sub").html(result.content.sub);
     $("#message").html(result.content.message.replace("\n", "<br>"));
     $("#copyright").html(result.content.copyright);
-
+    if (result.content.image) {
+      $("#image").attr("src", result.content.image.localId);
+    }
   });
 
   edit.click(function() {
