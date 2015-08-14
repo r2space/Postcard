@@ -5,7 +5,7 @@
 
 <input type="hidden" id="type" value="<%= handler.params.type %>" />
 <input type="hidden" id="id" value="<%= handler.params.id %>" />
-<input type="hidden" id="userid" value="<%= handler.uid %>" />
+<input type="hidden" id="socket" value="<%= conf.push.socketServer + ':' + conf.push.socketPort %>" />
 
 <% include _preloader.html %>
 

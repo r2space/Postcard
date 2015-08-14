@@ -7,7 +7,8 @@
 
 'use strict';
 
-var wechat = require("light-wechat");
+var mq = light.framework.mq
+  , config = light.framework.config.wechat;
 
 /**
  * 注册
@@ -15,5 +16,16 @@ var wechat = require("light-wechat");
  * @param {Function} callback
  */
 exports.setting = function (handler, callback) {
-  wechat.mp.getJsConfig(handler.params.url, callback);
+
+  //wechat.mp.getJsConfig(handler.params.url, callback);
+
+  var body = {
+    url: handler.params.url,
+    tag: "postcard.poke",
+    uid: handler.params.uid,
+    appid: config.mp.appid,
+    secret: config.mp.secret
+  };
+
+  mq.publish("send.wx", body, callback);
 };

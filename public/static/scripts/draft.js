@@ -12,36 +12,33 @@
    */
   function init() {
 
-//    light.initNotice("127.0.0.1:7001", "postcard.poke", {uid: "aaaa"}, function (a,b) {
-//console.log(a,b);
-//    });
+    var uid = light.randomGUID4() + light.randomGUID4() + light.randomGUID4();
 
-    light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
-      console.log(setting);
-
+    // 步骤1，等待socket的通知，获取wx的设定内容
+    light.initNotice($("#socket").val(), "postcard.poke", {uid: uid}, function (setting) {
       wx.config(setting);
-      wx.ready(function () {
-      });
-
-      wx.error(function (err) {
-      });
     });
 
-    if (id) {
-      light.doget("/api/card/get", {id: id}, function (err, result) {
-        if (err) {
-          errorMessage.html("卡片加载出错，请稍后再试");
-          error.fadeIn(300);
-          return console.log(err);
-        }
+    // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
+    light.doget("/api/wechat/setting", {url: window.location.href, uid: uid}, function (err, setting) {
 
-        $("#title").val(result.content.title);
-        $("#sub").val(result.content.sub);
-        $("#message").val(result.content.message);
-        $("#copyright").val(result.content.copyright);
-        type.val(result.type)
-      });
-    }
+      // 步骤3，如果是修改，获取详细内容
+      if (id) {
+        light.doget("/api/card/get", {id: id}, function (err, result) {
+          if (err) {
+            errorMessage.html("卡片加载出错，请稍后再试");
+            error.fadeIn(300);
+            return console.log(err);
+          }
+
+          $("#title").val(result.content.title);
+          $("#sub").val(result.content.sub);
+          $("#message").val(result.content.message);
+          $("#copyright").val(result.content.copyright);
+          type.val(result.type)
+        });
+      }
+    });
   }
 
   /**
