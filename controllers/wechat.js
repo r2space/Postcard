@@ -15,5 +15,5 @@ var wechat = require("light-wechat");
  * @param {Function} callback
  */
 exports.setting = function (handler, callback) {
-  wechat.mp.getJsConfig(callback);
+  wechat.mp.getJsConfig(handler.params.url, callback);
 };

@@ -12,7 +12,11 @@
    */
   function init() {
 
-    light.doget("/api/wechat/setting", function (err, setting) {
+//    light.initNotice("127.0.0.1:7001", "postcard.poke", {uid: "aaaa"}, function (a,b) {
+//console.log(a,b);
+//    });
+
+    light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
       console.log(setting);
 
       wx.config(setting);

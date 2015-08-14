@@ -738,7 +738,7 @@ var light = (function($){
       }
 
       param = param || {};
-      param.uid = this.uid();
+      param.uid = param.uid || this.uid();
       var socket = io(uri, {query: $.param(param), reconnection: false});
 
       socket.on(tag, function (data) {

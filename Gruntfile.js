@@ -20,7 +20,8 @@ module.exports = function(grunt) {
       "public/static/thirdparty/moment/*",
       "public/static/thirdparty/jquery/*",
       "public/static/thirdparty/underscore/*",
-      "public/static/thirdparty/underscore.string/*"
+      "public/static/thirdparty/underscore.string/*",
+      "public/static/thirdparty/socket.io-client/*"
     ],
 
     /**
@@ -50,6 +51,10 @@ module.exports = function(grunt) {
           expand: true, cwd: "node_modules/", dest: "public/static/thirdparty/", src: [
             "jquery/dist/jquery.min.js",
             "jquery/dist/jquery.min.map"
+          ]
+        }, {
+          expand: true, cwd: "node_modules/", dest: "public/static/thirdparty/", src: [
+            "socket.io-client/socket.io.js"
           ]
         }
         ]
