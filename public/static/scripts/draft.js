@@ -13,9 +13,11 @@
   function init() {
 
     var uid = light.randomGUID4() + light.randomGUID4() + light.randomGUID4();
-
+$("#title").val($("#socket").val() + " / " + uid);
     // 步骤1，等待socket的通知，获取wx的设定内容
-    light.initNotice($("#socket").val(), "postcard.poke", {uid: uid}, function (setting) {
+    light.initNotice("ws://" + $("#socket").val(), "postcard.poke", {uid: uid}, function (setting) {
+      console.log(setting);
+      $("#message").val(JSON.stringify(setting));
       wx.config(setting);
     });
 
