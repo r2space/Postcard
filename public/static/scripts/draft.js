@@ -17,7 +17,7 @@
     // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
     light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
 
-      //setting.debug = false;
+      setting.debug = false;
       wx.config(setting);
 
       // 步骤3，如果是修改，获取详细内容
@@ -37,10 +37,9 @@
 
           image = result.content.image;
           if (image.final) {
-            $("#preview").attr("src", "/api/file/image?id=" + image.final[0]);
+            $("#image").attr("src", "/api/file/image?id=" + image.final[0]);
           } else if (image.localId) {
-            $("#preview").attr("src", image.localId);
-            $("#copyright").val(image.localId)
+            $("#image").attr("src", image.localId);
           }
         });
       }
@@ -128,7 +127,7 @@
 
         var localIds = res.localIds;  // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 
-        $("#preview").attr("src", localIds[0]);
+        $("#image").attr("src", localIds[0]);
         $("#copyright").val(localIds[0])
         wx.uploadImage({
           localId: localIds[0],       // 需要上传的图片的本地ID，由chooseImage接口获得
