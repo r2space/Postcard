@@ -23,18 +23,15 @@
 
         <form class="contactForm" id="contactForm">
           <fieldset>
-
+            <div class="formFieldWrap">
+              <label class="field-title contactNameField" for="image">图片:<span></span></label>
+              <div class="staff-item">
+                <img src="<%= dynamic('/images/pictures/1s.jpg') %>" alt="img" id="image">
+              </div>
+            </div>
             <div class="formValidationError" id="error">
               <div class="static-notification-red tap-dismiss-notification">
                 <p class="center-text uppercase" id="errorMsg"></p>
-              </div>
-            </div>
-
-            <div class="formFieldWrap">
-              <label class="field-title contactNameField" for="image">图片:<span></span></label>
-
-              <div class="staff-item">
-                <img src="<%= dynamic('/images/pictures/1s.jpg') %>" alt="img" id="image">
               </div>
             </div>
             <div class="formFieldWrap">

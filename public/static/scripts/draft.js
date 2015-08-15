@@ -17,7 +17,7 @@
     // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
     light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
 
-      setting.debug = false;
+      //setting.debug = false;
       wx.config(setting);
 
       // 步骤3，如果是修改，获取详细内容
