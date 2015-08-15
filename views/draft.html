@@ -32,8 +32,14 @@
                 </div>
 
                 <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="image">图片:<span></span></label>
+                  <div class="staff-item">
+                    <img src="<%= dynamic('/images/pictures/1s.jpg') %>" alt="img" id="image">
+                  </div>
+                </div>
+                <div class="formFieldWrap">
                   <label class="field-title contactNameField" for="title">标题:<span>(必须)</span></label>
-                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="title"/>
+                  <input type="text" name="contactNameField" class="contactField requiredField" id="title"/>
                 </div>
                 <div class="formTextareaWrap">
                   <label class="field-title contactMessageTextarea" for="message">内容: <span>(必须)</span></label>
@@ -41,15 +47,11 @@
                 </div>
                 <div class="formFieldWrap">
                   <label class="field-title contactEmailField" for="sub">子标题: <span></span></label>
-                  <input type="text" name="contactEmailField" value="" class="contactField requiredField requiredEmailField" id="sub"/>
-                </div>
-                <div class="formFieldWrap">
-                  <label class="field-title contactNameField" for="picture">图片:<span></span></label>
-                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="picture"/>
+                  <input type="text" name="contactEmailField" class="contactField requiredField requiredEmailField" id="sub"/>
                 </div>
                 <div class="formFieldWrap">
                   <label class="field-title contactNameField" for="copyright">Copyright:<span></span></label>
-                  <input type="text" name="contactNameField" value="" class="contactField requiredField" id="copyright"/>
+                  <input type="text" name="contactNameField" class="contactField requiredField" id="copyright"/>
                 </div>
                 <div class="formSubmitButtonErrorsWrap">
                   <input type="button" class="buttonWrap button button-green contactSubmitButton" id="preview" value="预览" />

@@ -28,22 +28,20 @@
               <em id="sub">Web Designer</em>
               <br />
               <strong id="message">We love quotes, and sometimes it's annoying to see tons of them that you need to scroll to!</strong>
-
-              <% if (handler.params.view) { %>
-              <a href="#" class="button button-red center-button" id="edit">修改</a>
-              <a href="#" class="button button-red center-button" id="publish">发布</a>
-              <% } %>
-
             </div>
           </div>
         </div>
       </div>
-      <div class="decoration"></div>
     </div>
 
     <div class="footer">
       <p class="center-text" id="copyright">© 2015 Alphabets Co., Ltd. All Rights Reserved.</p>
     </div>
+
+    <% if (handler.params.view) { %>
+    <a href="#" class="button button-red center-button" id="edit">修改</a>
+    <a href="#" class="button button-red center-button" id="publish">发布</a>
+    <% } %>
 
   </div>
 </div>

@@ -15,7 +15,7 @@
     // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
     light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
 
-      $("#message").val(JSON.stringify(setting));
+      setting.debug = false;
       wx.config(setting);
 
       // 步骤3，如果是修改，获取详细内容
@@ -109,7 +109,7 @@
     return false;
   });
 
-  $("#picture").click(function () {
+  $("#image").click(function () {
     wx.chooseImage({
       count: 1,                       // 默认9
       sizeType: ['compressed'],       // 可以指定是原图还是压缩图，默认二者都有
@@ -121,7 +121,7 @@
           localId: localIds[0],       // 需要上传的图片的本地ID，由chooseImage接口获得
           isShowProgressTips: 1,      // 默认为1，显示进度提示
           success: function (res) {
-            image.localIdId = localIds[0];
+            image.localId = localIds[0];
             image.serverId = res.serverId;
           }
         });
