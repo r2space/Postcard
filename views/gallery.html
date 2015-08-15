@@ -1,6 +1,7 @@
 <!DOCTYPE HTML><head>
 
   <% include _required.html %>
+  <link href="<%= dynamic('/styles/swipebox.css') %>" rel="stylesheet" type="text/css">
   <title>LIGHT</title>
 
 </head>
@@ -60,6 +61,19 @@
 </div>
 
 <% include _footer.html %>
+
+<script type="text/javascript" src="<%= dynamic('/scripts/swipebox.min.js') %>"></script>
+<script type="text/javascript">
+  (function ($) {
+    $(document).ready(function () {
+      $(".swipebox").swipebox({
+        useCSS: true,       // false will force the use of jQuery for animations
+        hideBarsDelay: 3000 // 0 to always show caption and action bar
+      });
+    });
+  }(jQuery));
+
+</script>
 
 </body>
 

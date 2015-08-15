@@ -31,7 +31,16 @@
           $("#sub").val(result.content.sub);
           $("#message").val(result.content.message);
           $("#copyright").val(result.content.copyright);
-          type.val(result.type)
+          type.val(result.type);
+
+          image = result.content.image;
+          if (image) {
+            if (image.final) {
+              $("#preview").attr("src", image.final);
+            } else if (image.localId) {
+              $("#preview").attr("src", image.localId);
+            }
+          }
         });
       }
     });
@@ -70,7 +79,7 @@
   }
 
   // 预览
-  $('#preview').click(function () {
+  $("#preview").click(function () {
 
     var title = $("#title")
       , sub = $("#sub")
@@ -112,11 +121,13 @@
   $("#image").click(function () {
     wx.chooseImage({
       count: 1,                       // 默认9
-      sizeType: ['compressed'],       // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album'],          // 可以指定来源是相册还是相机，默认二者都有
+      sizeType: ["compressed"],       // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ["album"],          // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
 
         var localIds = res.localIds;  // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
+        $("#preview").attr("src", localIds[0]);
         wx.uploadImage({
           localId: localIds[0],       // 需要上传的图片的本地ID，由chooseImage接口获得
           isShowProgressTips: 1,      // 默认为1，显示进度提示
