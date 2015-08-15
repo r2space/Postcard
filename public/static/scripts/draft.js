@@ -12,17 +12,11 @@
    */
   function init() {
 
-    var uid = light.randomGUID4() + light.randomGUID4() + light.randomGUID4();
-$("#title").val($("#socket").val() + " / " + uid);
-    // 步骤1，等待socket的通知，获取wx的设定内容
-    light.initNotice("ws://" + $("#socket").val(), "postcard.poke", {uid: uid}, function (setting) {
-      console.log(setting);
+    // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
+    light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
+
       $("#message").val(JSON.stringify(setting));
       wx.config(setting);
-    });
-
-    // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
-    light.doget("/api/wechat/setting", {url: window.location.href, uid: uid}, function (err, setting) {
 
       // 步骤3，如果是修改，获取详细内容
       if (id) {

@@ -20,8 +20,7 @@ module.exports = function(grunt) {
       "public/static/thirdparty/moment/*",
       "public/static/thirdparty/jquery/*",
       "public/static/thirdparty/underscore/*",
-      "public/static/thirdparty/underscore.string/*",
-      "public/static/thirdparty/socket.io-client/*"
+      "public/static/thirdparty/underscore.string/*"
     ],
 
     /**

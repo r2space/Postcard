@@ -17,15 +17,23 @@ var mq = light.framework.mq
  */
 exports.setting = function (handler, callback) {
 
-  //wechat.mp.getJsConfig(handler.params.url, callback);
-
   var body = {
-    url: handler.params.url,
-    tag: "postcard.poke",
-    uid: handler.params.uid,
-    appid: config.mp.appid,
-    secret: config.mp.secret
+    method: "getJsConfig",
+    args: [{
+      url: handler.params.url,
+      appid: config.mp.appid,
+      secret: config.mp.secret
+    }],
+    callback: "postcard"
   };
 
-  mq.publish("send.wx", body, callback);
+  mq.listener("postcard", function(err, result) {
+    if (err || result.error) {
+      return callback(err || result.error);
+    }
+
+    callback(undefined, result.data);
+  });
+
+  mq.publish("send.wx", body);
 };
