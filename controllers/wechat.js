@@ -5,13 +5,50 @@
  * @version 1.0.0
  */
 
-'use strict';
+"use strict";
 
-var mq = light.framework.mq
-  , helper = light.framework.helper
-  , config = light.framework.config
-  , file = light.model.file
-  , rider = light.model.rider;
+var mq      = light.framework.mq
+  , helper  = light.framework.helper
+  , config  = light.framework.config
+  , file    = light.model.file
+  , rider   = light.model.rider
+  , wechat  = require("light-wechat");
+
+
+/**
+ * @desc 验证服务器配置时使用
+ * @param {Object} handler 请求对象
+ */
+exports.mp = function (handler) {
+  if (handler.req.method == "GET") {
+    return wechat.mp.verify(handler);
+  }
+
+  wechat.mp.listen(handler, function (message, callback) {
+    callback({
+      content: "你好, 欢迎光临字符科技服务号",
+      toUsername: message.FromUserName,
+      fromUsername: message.ToUserName
+    });
+  });
+};
+
+/**
+ * @desc 验证企业号应用对应的服务器配置时使用
+ * @param {Object} handler 请求对象
+ */
+exports.enterprise = function (handler) {
+  if (handler.req.method == "GET") {
+    return wechat.enterprise.verify(handler);
+  }
+
+  wechat.enterprise.listen(handler, function (message, callback) {
+    callback({
+      content: "你好, 欢迎光临字符科技企业号",
+      toUsername: message.FromUserName
+    });
+  });
+};
 
 /**
  * 获取JS用设定内容
