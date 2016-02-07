@@ -17,14 +17,13 @@
     // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
     light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
 
-      setting.debug = false;
       wx.config(setting);
 
       // 步骤3，如果是修改，获取详细内容
       if (id) {
         light.doget("/api/card/get", {id: id}, function (err, result) {
           if (err) {
-            errorMessage.html("卡片加载出错，请稍后再试");
+            errorMsg.html("卡片加载出错，请稍后再试");
             error.fadeIn(300);
             return console.log(err);
           }
@@ -57,7 +56,7 @@
     if (id) {
       return light.doput("/api/card/update", {id: id, data: data}, function (err) {
         if (err) {
-          errorMessage.html("保存卡片出错，请稍后再试");
+          errorMsg.html("保存卡片出错，请稍后再试");
           error.fadeIn(300);
           return console.log(err);
         }
@@ -69,7 +68,7 @@
     // 添加
     light.dopost("/api/card/add", {data: data}, function (err, result) {
       if (err) {
-        errorMessage.html("保存卡片出错，请稍后再试");
+        errorMsg.html("保存卡片出错，请稍后再试");
         error.fadeIn(300);
         return console.log(err);
       }

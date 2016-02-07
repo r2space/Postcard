@@ -7,8 +7,7 @@
 
 "use strict";
 
-var mq      = light.framework.mq
-  , helper  = light.framework.helper
+var helper  = light.framework.helper
   , config  = light.framework.config
   , file    = light.model.file
   , rider   = light.model.rider
@@ -57,25 +56,14 @@ exports.enterprise = function (handler) {
  */
 exports.setting = function (handler, callback) {
 
-  var queue = helper.randomGUID4() + helper.randomGUID4();
+  var api = new wechat.mpAPI()
+    , param = {
+    debug: false,
+    jsApiList: ["chooseImage", "uploadImage"],
+    url: "http://56648deee144.app.alphabets.cn"
+  };
 
-  mq.listener(queue, function (err, result) {
-    if (err || result.error) {
-      return callback(err || result.error);
-    }
-
-    callback(undefined, result.data);
-  });
-
-  mq.publish("send.wx", {
-    method: "getJsConfig",
-    args: [{
-      url: handler.params.url,
-      appid: config.wechat.mp.appid,
-      secret: config.wechat.mp.secret
-    }],
-    callback: queue
-  });
+  api.getJsConfig(param, callback);
 };
 
 /**

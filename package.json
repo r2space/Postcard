@@ -1,11 +1,11 @@
 {
-  "name": "MiniApplication",
+  "name": "Postcard",
   "version": "0.0.1",
-  "description": "MiniApplication",
+  "description": "Postcard",
   "author": "Alphabets",
   "license": "MIT",
   "dependencies": {
-    "light-core": "git+http://git.alphabets.cn/root/LightCore.git",
+    "light-core": "0.2.3",
     "underscore": "1.8.3",
     "underscore.string": "3.1.1",
     "alertify": "0.3.0",
@@ -17,5 +17,4 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "^0.8.0"
   }
-
 }
