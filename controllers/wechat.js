@@ -52,16 +52,14 @@ exports.enterprise = function (handler) {
 /**
  * 获取JS用设定内容
  * @param {Object} handler
+ *  url: 当前网页的URL
+ *  api: 申请使用的JSAPI
  * @param {Function} callback
  */
 exports.setting = function (handler, callback) {
 
   var api = new wechat.mpAPI()
-    , param = {
-    debug: false,
-    jsApiList: ["chooseImage", "uploadImage"],
-    url: "http://56648deee144.app.alphabets.cn"
-  };
+    , param = {debug: false, jsApiList: handler.params.api, url: handler.params.url};
 
   api.getJsConfig(param, callback);
 };
@@ -73,22 +71,19 @@ exports.setting = function (handler, callback) {
  */
 exports.image = function (handler, callback) {
 
-  var queue = helper.randomGUID4() + helper.randomGUID4();
+  var api = new wechat.mpAPI();
 
-  mq.listener(queue, function (err, result) {
-    if (err || result.error) {
-      return callback(err || result.error);
-    }
+  api.getMedia(handler.params.imageId, function (err, result) {
 
     // 保存文件
-    handler.addParams("files", [new Buffer(result.data.data)]);
-    file.add(handler, function(err, data) {
+    handler.addParams("files", [result]);
+    file.add(handler, function (err, data) {
       if (err) {
         return callback(err);
       }
 
       // 获取卡片数据
-      rider.card.get(handler, function(err, result) {
+      rider.card.get(handler, function (err, result) {
         if (err) {
           return callback(err);
         }
@@ -100,16 +95,6 @@ exports.image = function (handler, callback) {
         rider.card.update(handler, {data: result}, callback);
       });
     });
-  });
-
-  mq.publish("send.wx", {
-    method: "getMedia",
-    args: [{
-      id: handler.params.imageId,
-      appid: config.wechat.mp.appid,
-      secret: config.wechat.mp.secret
-    }],
-    callback: queue
   });
 
 };

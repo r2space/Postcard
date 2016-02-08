@@ -15,7 +15,9 @@
     error.hide();
 
     // 步骤2，异步获取微信调用设定，结果通过socket通知到步骤1里
-    light.doget("/api/wechat/setting", {url: window.location.href}, function (err, setting) {
+    light.doget("/api/wechat/setting", {
+      url: window.location.href, api: ["chooseImage", "uploadImage"]
+    }, function (err, setting) {
 
       wx.config(setting);
 

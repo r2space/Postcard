@@ -15,6 +15,7 @@ if (args && args.length > 2 && args[2] == '-local') {
   process.env.LIGHTDB_USER = config.db_user;
   process.env.LIGHTDB_PASS = config.db_pass;
   process.env.APPNAME      = config.app_domain;
+  process.env.DEV          = true;
 }
 
 
