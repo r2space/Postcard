@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<head>
+
+  <% include ../_required.html %>
+  <title>LIGHT</title>
+
+  <style type="text/css">
+    .contactTextarea {
+      height: 120px;
+    }
+  </style>
+
+</head>
+<body>
+
+<% include ../_preloader.html %>
+<div class="all-elements">
+
+  <!-- Page Content-->
+  <div id="content" class="snap-content">
+    <div class="header-clear"></div>
+
+    <div class="content">
+      <div>
+        <h4>写一篇微博客</h4>
+
+        <div class="decoration"></div>
+
+        <div class="blog-posts">
+          <div class="blog-post">
+
+            <form class="contactForm" id="contactForm">
+              <fieldset>
+                <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="image">图片:<span></span></label>
+                  <a class="blog-post-image" href="/text.html">
+                    <img src="<%= dynamic('/images/pictures/3ww.jpg') %>" alt="img" id="image">
+                  </a>
+                </div>
+                <div class="formValidationError" id="error">
+                  <div class="static-notification-red tap-dismiss-notification">
+                    <p class="center-text uppercase" id="errorMsg"></p>
+                  </div>
+                </div>
+                <div class="formFieldWrap">
+                  <label class="field-title contactNameField" for="title">标题:<span>(必须)</span></label>
+                  <input type="text" name="contactNameField" class="contactField requiredField" id="title"/>
+                </div>
+                <div class="formTextareaWrap">
+                  <label class="field-title contactMessageTextarea" for="message">内容: <span>(必须)</span></label>
+                  <textarea name="contactMessageTextarea" class="contactTextarea requiredField" id="message"></textarea>
+                </div>
+                <div class="formSubmitButtonErrorsWrap">
+                  <input type="button" class="buttonWrap button button-green contactSubmitButton" id="preview"
+                         value="预览"/>
+                </div>
+              </fieldset>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<% include ../_footer.html %>
+<script type="text/javascript" src="<%= dynamic('/scripts/blog/create.js') %>"></script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
