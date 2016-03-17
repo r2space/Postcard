@@ -16,11 +16,12 @@ var log       = light.framework.log
   , rider     = light.model.rider
   , file      = light.model.file
   , path      = light.lang.path
+  , fs        = light.lang.fs
   , _         = light.util.underscore
   , async     = light.util.async
   , git       = require("simple-git")
   , mime      = require("mime")
-  , fs        = require("fs")
+  , config    = require("./config")
   ;
 
 
@@ -43,67 +44,68 @@ cache.manager.init(process.env.APPNAME, function (err) {
 
   var handler = new context().create("000000000000000000000001", process.env.APPNAME);
 
-  //获取git提交日志 
+  // 获取git提交日志
   gitLog(handler, function (err, result) {
 
     if (err) {
-      return log.error(err);
+      log.error(err);
+      return process.exit(1);
     }
+
     var from = result.latest.hash.substr(0, 7);
 
     handler.code = "light";
     rider.setting.list(handler, function (err, result) {
 
-      // var to = _.findWhere(result.items, {key: "LastCommit"}).value;
       var findResult = _.findWhere(result.items, {key: "LastCommit"});
       var to = findResult ? findResult.value : "";
 
-      //如果获取数据库中最后上传版本不存在，则直接上传文件到服务器
       if (to) {
-        gitDiff(from, to, function (err, diff) {
-          //如果文件版本相同则返回
+        return gitDiff(from, to, function (err, diff) {
+
+          // 如果文件版本相同则返回
           if (diff.length == 0) {
-            console.log("没有需要上传的文件");
-            process.exit();
-            return;
+            log.debug("没有需要上传的文件");
+            return process.exit(0);
           }
-          upload(handler, from, diff, function (err, dota) {
+          upload(handler, from, diff, function (err) {
             if (err) {
               log.error(err);
             }
-            process.exit();
+            return process.exit(0);
           });
         });
-        return;
       }
-      upload(handler, from, getAllFile(), function (err, data) {
+
+      // 如果获取数据库中最后上传版本不存在，则直接上传文件到服务器
+      upload(handler, from, getAllFile(), function (err) {
         if (err) {
           log.error(err);
         }
-        process.exit();
+        return process.exit(0);
       });
     });
-
   });
+
 });
-// 
+
 
 /**
  * @desc 获取需要上传得全部文件
  **/
 function getAllFile() {
-  var fileList = helper.tree(__dirname);
-  var excludeModules = path.resolve(__dirname, "node_modules");
-  var excludeGit = path.resolve(__dirname, ".git");
-  var i = 0;
+
+  var fileList = helper.tree(__dirname)
+    , excludeModules = path.resolve(__dirname, "node_modules")
+    , excludeGit = path.resolve(__dirname, ".git");
 
   fileList = _.filter(fileList, function (file) {
-    if (file.file && file.file.indexOf(excludeModules) == -1 && file.file.indexOf(excludeGit) == -1) {
-      return true;
-    }
+    return (file.file && file.file.indexOf(excludeModules) == -1 && file.file.indexOf(excludeGit) == -1);
   });
+
   return fileList;
 }
+
 
 /**
  * @desc 获取指定版本之间的变更文件一览
@@ -112,10 +114,12 @@ function getAllFile() {
  * @param callback
  */
 function gitDiff(from, to, callback) {
-  var dir = path.resolve(__dirname);
-  git(dir).diff(["--name-only", from, to], function (err, diff) {
+
+  git(path.resolve(__dirname)).diff(["--name-only", from, to], function (err, diff) {
+
     var files = diff.split("\n");
-    //去除文件名称为空的数据
+
+    // 去除文件名称为空的数据
     files = _.filter(files, function (file) {
       if (file) {
         return true;
@@ -139,6 +143,7 @@ function gitLog(handler, callback) {
     if (err) {
       log.error(err);
     }
+
     gitLog.path = dir;
     callback(err, gitLog);
   });
@@ -147,6 +152,7 @@ function gitLog(handler, callback) {
 
 /**
  * @desc 上传指定的代码
+ * @param handler
  * @param commit
  * @param source
  * @param callback
@@ -156,35 +162,40 @@ function upload(handler, commit, source, callback) {
   var dir = path.resolve(__dirname);
 
   source = _.map(source, function (file) {
-    //判断file参数类型是否为字符串
+
+    // 判断file参数类型是否为字符串
     if (typeof file == "string") {
       return {file: path.resolve(dir, file)}
     }
+
     return {file: file.file};
   });
+
   loadFromFile(handler, dir, source, function (err) {
     if (err) {
       return callback(err);
     }
-    //判断setting数据是否存在  
+
+    // 判断setting数据是否存在
     rider.setting.list(handler, function (err, result) {
       if (err) {
-        log.error(err);
-        return;
+        return log.error(err);
       }
-      var findResult = _.findWhere(result.items, {key: "LastCommit"});
-      var to = findResult ? findResult.value : "";
-      //如果存在修改数据
+
+      var findResult = _.findWhere(result.items, {key: "LastCommit"})
+        , to = findResult ? findResult.value : "";
+
+      // 如果存在修改数据
       if (to) {
-        rider.setting.update(handler, {condition: {key: "LastCommit"}, data: {value: commit}}, callback);
-        return;
+        return rider.setting.update(handler, {condition: {key: "LastCommit"}, data: {value: commit}}, callback);
       }
-      //新建数据
+
+      // 新建数据
       rider.setting.add(handler, {
         data: {
           "key": "LastCommit",
           "value": commit,
-          "description": "最终更新",
+          "description": "最终更新"
         }
       }, callback);
     });
@@ -197,6 +208,7 @@ function loadFromFile(handler, folder, files, callback) {
   files = files || helper.tree(folder, null, null, ignore());
 
   async.eachSeries(files, function (item, next) {
+
     // 文件不存在, 则删除数据库中的文件
     if (!helper.fileExists(item.file)) {
       return removeCode(handler, {name: item.file.replace(folder, "")}, next);
@@ -238,6 +250,7 @@ function loadFromFile(handler, folder, files, callback) {
     }, next);
   }, callback);
 }
+
 
 function upsertCode(handler, item, callback) {
 
